@@ -12,7 +12,7 @@ type ElementData = {
 function App() {
   const [dark, setDark] = React.useState(false);
 
-  function darkModeHandler(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void {
+  function darkModeHandler(): void {
     setDark(!dark);
     document.body.classList.toggle("dark");
     document.getElementsByName('custom-img')
@@ -26,7 +26,7 @@ function App() {
       content: <>
         <ReactTypingEffect
           text={"Hello. World!!!"}
-          displayTextRenderer={(text: any, i: any) => {
+          displayTextRenderer={(text: any) => {
             return (
               <h1>
                 {text.split('').map((char: any, i: any) => {
@@ -113,39 +113,6 @@ function App() {
       };
     });
   }, []);
-  const [value, setValue] = useState(0);
-  const progressRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (entry.isIntersecting) {
-          // يبدأ التحريك عند ظهور العنصر
-          const interval = setInterval(() => {
-            setValue((prevValue) => {
-              if (prevValue < 75) {
-                return prevValue + 1;
-              } else {
-                clearInterval(interval);
-                return 75;
-              }
-            });
-          }, 25);
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    if (progressRef.current) {
-      observer.observe(progressRef.current);
-    }
-
-    return () => {
-      if (progressRef.current) {
-        observer.unobserve(progressRef.current);
-      }
-    };
-  }, []);
 
   return (
     <html className='bg-white dark:bg-black'>
@@ -194,8 +161,6 @@ function App() {
         <div className='flex flex-col items-center justify-center h-screen bg-fixed bg-center bg-cover custom-img'>
           {elements.map((element, index) => {
             const [animatingIndex, setAnimatingIndex] = React.useState(0);
-            // const buttonRef = React.useRef<HTMLDivElement>(null);
-
             const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>, index: number) => {
               if (index == 3)
                 console.log()
@@ -205,8 +170,7 @@ function App() {
               if (element.startAnimationClasses.length == animatingIndex + 1)
                 setActiveIndex(activeIndex + 1)
             };
-
-            const handleAnimationStart = (e: React.AnimationEvent<HTMLDivElement>, index: number) => {
+            const handleAnimationStart = (e: React.AnimationEvent<HTMLDivElement>) => {
               if (animatingIndex == 0)
                 e.currentTarget.classList.replace("invisible", "visible");
             };
@@ -216,7 +180,7 @@ function App() {
                 key={index}
                 className={`invisible p-5 text-2xl text-white rounded-xl mb-4 transition-opacity duration-1000 
                 ${element.startAnimationClasses[0]}`}
-                onAnimationStart={(e) => handleAnimationStart(e, index)}
+                onAnimationStart={(e) => handleAnimationStart(e)}
                 onAnimationEnd={(e) => handleAnimationEnd(e, index)}
               >
                 {element.content}
@@ -231,18 +195,14 @@ function App() {
       </header>
       <main className='py-24 w-full  flex flex-col items-center justify-center relative xl:mr-0 lg:mr-5 mr-0'>
         <div className='flex flex-col max-w-7xl gap-y-20'>
-
-
           <section className="">
             <div className="w-full px-4 md:px-5 lg:px-5 mx-auto">
               <div className="w-full justify-start items-center xl:gap-12 gap-10 grid lg:grid-cols-2 grid-cols-1">
                 <div className="w-full flex-col justify-center lg:items-start items-center gap-10 inline-flex">
                   <div className="w-full flex-col justify-center items-start gap-8 flex">
                     <div className="flex-col justify-start lg:items-start items-center gap-4 flex">
-
                       <h1 className="font-manrope text-gray-400 text-4xl font-bold leading-10 relative left-0">About us</h1>
                       <hr className="w-28 h-1 bg-black border-0 rounded  dark:bg-gray-700" />
-
                       <div className="w-full flex-col justify-start lg:items-start items-center gap-3 flex">
                         <h2 className="text-indigo-700 text-4xl font-bold font-manrope leading-normal lg:text-start text-center">
                           My Story
