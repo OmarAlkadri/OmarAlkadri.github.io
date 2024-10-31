@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './App.css'
-import React from 'react';
 import ReactTypingEffect from 'react-typing-effect';
 
 
