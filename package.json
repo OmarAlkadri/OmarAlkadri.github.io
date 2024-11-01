@@ -1,5 +1,6 @@
 {
 	"name": "my-project",
+	"homepage": "http://my_profile.github.io/my_profile",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
